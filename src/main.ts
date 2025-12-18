@@ -1,6 +1,6 @@
 import { Application, Assets } from 'pixi.js';
-import { addSpinButton } from "./components/spinButton.ts";
-import { addMainPageTitle, addWinHolder } from "./components/texts.ts";
+import { addPlayButton } from "./components/playButton.ts";
+import { addMainPageTitle } from "./components/texts.ts";
 
 (async () => {
     const app = new Application();
@@ -16,11 +16,10 @@ import { addMainPageTitle, addWinHolder } from "./components/texts.ts";
 
     // Load the textures
     await Assets.load([
-        {alias: "spinButton", src: "assets/play-button-on.png"}
+        {alias: "playButton", src: "assets/play-button-on.png"}
     ]);
 
     // const {reels} = addReels(app, slotTextures);
-    const winText = addWinHolder(app);
-    const spinButton = addSpinButton(app);
+    const spinButton = addPlayButton(app);
     const mainPageTitle = addMainPageTitle(app);
 })();
