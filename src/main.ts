@@ -8,6 +8,8 @@ import { gameState } from "./components/consts.ts";
 (async () => {
     const app = new Application();
 
+    globalThis.__PIXI_APP__ = app;
+
     await app.init({
         background: "#06a159",
         height: 1050,

@@ -13,8 +13,9 @@ export function addChests(app: Application) {
 }
 
 function addChest(app:Application, column: number, row: number) {
-    const chest = Sprite.from("chestOff");
+    const chest = Sprite.from("chest");
 
+    chest.alpha = 0.5;
     styleChest(app, chest, column, row);
 
     app.stage.addChild(chest);
@@ -29,4 +30,10 @@ function styleChest(app: Application, chest: Sprite, column: number, row: number
     chest.x += (column % 2 === 1) ? app.screen.width / 4 : -app.screen.width / 4;
     chest.y = app.screen.height * (2 / 6);
     chest.y += row * app.screen.height * (1 / 6)
+}
+
+export function disableChests(chests: Sprite[]) {
+    chests.forEach(chest => {
+        chest.alpha = 0.5;
+    })
 }

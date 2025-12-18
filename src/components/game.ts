@@ -1,5 +1,6 @@
 import { Sprite, Texture } from "pixi.js";
 import { gameState, numberOfChestsOpened } from "./consts.ts";
+import { disableChests } from "./chest.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     playButton.visible = !playButton.visible;
@@ -16,11 +17,13 @@ function changeChestsTexture(chests: Sprite[]) {
 
     chests.forEach(chest => {
         if (gameState.value === "Initial") {
+            chest.alpha = 1;
             chest.texture = normalTexture;
             chest.eventMode = 'static';
             chest.cursor = 'pointer';
         } else if (gameState.value === "Ready" || gameState.value === "NoWin") {
             chest.texture = offTexture;
+            chest.alpha = 1;
             chest.eventMode = 'static';
             chest.cursor = 'pointer';
         } else if (gameState.value === "NormalWin" || gameState.value === "BonusWin") {
@@ -28,6 +31,13 @@ function changeChestsTexture(chests: Sprite[]) {
             chest.cursor = 'auto';
         }
     })
+}
+
+function changeChestMarking(chest: Sprite, otherChests: Sprite[]) {
+    chest.alpha = 1;
+    otherChests.forEach(chest => {
+        chest.alpha = 0.5;
+    });
 }
 
 export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
@@ -49,14 +59,13 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
 
     changeChestsTexture([chest]);
     chest["used"] = true;
-
-    // gameState.value = "Ready";
-    // changeChestsTexture(otherChests);
+    changeChestMarking(chest, otherChests)
 
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
         restoreChests([chest, ...otherChests]);
+        disableChests([chest, ...otherChests])
     }
 }
 
