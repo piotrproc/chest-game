@@ -33,7 +33,7 @@ function changeChestsTexture(chests: Sprite[]) {
     })
 }
 
-function changeChestMarking(chest: Sprite, otherChests: Sprite[]) {
+function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
     chest.alpha = 1;
     otherChests.forEach(chest => {
         chest.alpha = 0.5;
@@ -59,13 +59,18 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
 
     changeChestsTexture([chest]);
     chest["used"] = true;
-    changeChestMarking(chest, otherChests)
+    changeChestsMarking(chest, otherChests)
 
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
         restoreChests([chest, ...otherChests]);
-        disableChests([chest, ...otherChests])
+        disableChests([chest, ...otherChests]);
+
+        [chest, ...otherChests].forEach(chest => {
+            chest.eventMode = 'none';
+            chest.cursor = 'none';
+        })
     }
 }
 
