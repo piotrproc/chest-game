@@ -1,7 +1,18 @@
 import { Application, Sprite } from "pixi.js";
 
-export function addPlayButton(app: Application) {
-    const playButton = Sprite.from("playButton");
+export function addPlayButtons(app: Application) {
+    const playButton = addPlayButtonTemplate(app, "playButton");
+    const playButtonOff = addPlayButtonTemplate(app, "playButtonOff");
+    playButtonOff.visible = false;
+
+    return {
+        playButton,
+        playButtonOff
+    };
+}
+
+function addPlayButtonTemplate(app: Application, texture: string) {
+    const playButton = Sprite.from(texture);
 
     stylePlayButton(app, playButton);
 

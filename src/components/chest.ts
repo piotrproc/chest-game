@@ -1,8 +1,6 @@
 import { Application, Sprite } from "pixi.js";
 
 export function addChests(app: Application) {
-    addChest(app, 0, 0)
-
     for(let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
             addChest(app, i, j);
@@ -11,14 +9,14 @@ export function addChests(app: Application) {
 }
 
 function addChest(app:Application, column: number, row: number) {
-    const chest = Sprite.from("chest");
+    const chest = Sprite.from("chestOff");
 
-    stylePlayButton(app, chest, column, row);
+    styleChest(app, chest, column, row);
 
     app.stage.addChild(chest);
 }
 
-function stylePlayButton(app: Application, chest: Sprite, column: number, row: number) {
+function styleChest(app: Application, chest: Sprite, column: number, row: number) {
     chest.anchor.set(0.5);
 
     chest.x = app.screen.width / 2;

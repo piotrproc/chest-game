@@ -1,7 +1,8 @@
 import { Application, Assets } from 'pixi.js';
-import { addPlayButton } from "./components/playButton.ts";
+import { addPlayButtons } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
 import { addChests } from "./components/chest.ts";
+import { startGame } from "./components/game.ts";
 
 (async () => {
     const app = new Application();
@@ -24,7 +25,14 @@ import { addChests } from "./components/chest.ts";
     ]);
 
     // const {reels} = addReels(app, slotTextures);
-    const spinButton = addPlayButton(app);
     const mainPageTitle = addMainPageTitle(app);
     const chest = addChests(app);
+    const {playButton, playButtonOff} = addPlayButtons(app);
+
+    playButton.addListener('pointerdown', () => {
+        startGame(playButton, playButtonOff)
+    });
+    playButtonOff.addListener('pointerdown', () => {
+        startGame(playButton, playButtonOff)
+    });
 })();
