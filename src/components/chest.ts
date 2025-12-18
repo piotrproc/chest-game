@@ -1,11 +1,15 @@
 import { Application, Sprite } from "pixi.js";
 
 export function addChests(app: Application) {
+    const chests: Sprite[] = [];
+
     for(let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
-            addChest(app, i, j);
+            chests.push(addChest(app, i, j));
         }
     }
+
+    return chests;
 }
 
 function addChest(app:Application, column: number, row: number) {
@@ -14,6 +18,8 @@ function addChest(app:Application, column: number, row: number) {
     styleChest(app, chest, column, row);
 
     app.stage.addChild(chest);
+
+    return chest;
 }
 
 function styleChest(app: Application, chest: Sprite, column: number, row: number) {
@@ -23,7 +29,4 @@ function styleChest(app: Application, chest: Sprite, column: number, row: number
     chest.x += (column % 2 === 1) ? app.screen.width / 4 : -app.screen.width / 4;
     chest.y = app.screen.height * (2 / 6);
     chest.y += row * app.screen.height * (1 / 6)
-
-    chest.eventMode = 'static';
-    chest.cursor = 'pointer';
 }

@@ -2,7 +2,8 @@ import { Application, Assets } from 'pixi.js';
 import { addPlayButtons } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
 import { addChests } from "./components/chest.ts";
-import { startGame } from "./components/game.ts";
+import { onChestClick, startGame } from "./components/game.ts";
+import { gameState } from "./components/consts.ts";
 
 (async () => {
     const app = new Application();
@@ -24,15 +25,21 @@ import { startGame } from "./components/game.ts";
         {alias: "chestOff", src: "assets/treasure-chest-off.png"}
     ]);
 
-    // const {reels} = addReels(app, slotTextures);
-    const mainPageTitle = addMainPageTitle(app);
-    const chest = addChests(app);
+    gameState.value = "Initial";
+
+    addMainPageTitle(app);
+    const chests = addChests(app);
     const {playButton, playButtonOff} = addPlayButtons(app);
 
     playButton.addListener('pointerdown', () => {
-        startGame(playButton, playButtonOff)
+        startGame(playButton, playButtonOff, chests)
     });
-    playButtonOff.addListener('pointerdown', () => {
-        startGame(playButton, playButtonOff)
-    });
+
+    chests.forEach(chest => {
+        chest.addListener('pointerdown', () => {
+            const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
+            onChestClick(chest, otherChests)
+        })
+    })
+
 })();
