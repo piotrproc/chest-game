@@ -33,6 +33,7 @@ import { gameState } from "./components/consts.ts";
     const {playButton, playButtonOff} = addPlayButtons(app);
 
     playButton.addListener('pointerdown', () => {
+        gameState.value = "Initial";
         startGame(playButton, playButtonOff, chests)
     });
 

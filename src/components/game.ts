@@ -6,7 +6,7 @@ export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Spr
     playButtonOff.visible = !playButtonOff.visible;
 
     changeChestsTexture(chests);
-    gameState.value = "On";
+    gameState.value = "Ready";
 }
 
 function changeChestsTexture(chests: Sprite[]) {
@@ -19,11 +19,11 @@ function changeChestsTexture(chests: Sprite[]) {
             chest.texture = normalTexture;
             chest.eventMode = 'static';
             chest.cursor = 'pointer';
-        } else if (gameState.value === "On" || gameState.value === "WinOff") {
+        } else if (gameState.value === "Ready" || gameState.value === "NoWin") {
             chest.texture = offTexture;
             chest.eventMode = 'static';
             chest.cursor = 'pointer';
-        } else if (gameState.value === "WinOn" || gameState.value === "BigWin") {
+        } else if (gameState.value === "NormalWin" || gameState.value === "BonusWin") {
             chest.texture = winTexture;
             chest.cursor = 'auto';
         }
@@ -40,37 +40,42 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
     const winType = generateWin();
 
     if (winType === "NoWin") {
-        gameState.value = "WinOff";
+        gameState.value = "NoWin";
     } else if (winType === "NormalWin") {
-        gameState.value = "WinOn";
-    } else if (winType === "BigWin") {
-        gameState.value = "BigWin";
+        gameState.value = "NormalWin";
+    } else if (winType === "BonusWin") {
+        gameState.value = "BonusWin";
     }
 
     changeChestsTexture([chest]);
     chest["used"] = true;
 
+    // gameState.value = "Ready";
+    // changeChestsTexture(otherChests);
+
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
-
-        chest["used"] = false;
-        otherChests.forEach(chest => {
-            chest["used"] = false
-        })
+        restoreChests([chest, ...otherChests]);
     }
 }
 
-type WinType = "NoWin" | "NormalWin" | "BigWin"
+function restoreChests(chests: Sprite[]) {
+    chests.forEach(chest => {
+        chest["used"] = false
+    })
+}
+
+type WinType = "NoWin" | "NormalWin" | "BonusWin"
 
 export function generateWin(): WinType {
     // Return a random integer between 1 and 10 (both included):
     const draw = Math.floor(Math.random() * 10) + 1;
 
-    if (draw < 11)
-        return "BigWin";
+    if (draw > 7)
+        return "BonusWin";
 
-    if (draw > 2) {
+    if (draw > 4) {
         return "NormalWin"
     }
 
