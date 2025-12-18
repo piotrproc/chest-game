@@ -22,7 +22,8 @@ import { gameState } from "./components/consts.ts";
         {alias: "playButton", src: "assets/play-button-on.png"},
         {alias: "playButtonOff", src: "assets/play-button-off.png"},
         {alias: "chest", src: "assets/treasure-chest.png"},
-        {alias: "chestOff", src: "assets/treasure-chest-off.png"}
+        {alias: "chestOff", src: "assets/treasure-chest-off.png"},
+        {alias: "chestWin", src: "assets/treasure-chest-win.png"}
     ]);
 
     gameState.value = "Initial";
@@ -38,7 +39,10 @@ import { gameState } from "./components/consts.ts";
     chests.forEach(chest => {
         chest.addListener('pointerdown', () => {
             const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
-            onChestClick(chest, otherChests)
+            onChestClick(chest, otherChests, () => {
+                gameState.value = "Initial";
+                startGame(playButton, playButtonOff, chests)
+            })
         })
     })
 

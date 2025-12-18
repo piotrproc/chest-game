@@ -1,5 +1,5 @@
 import { Sprite, Texture } from "pixi.js";
-import { gameState } from "./consts.ts";
+import { gameState, numberOfChestsOpened } from "./consts.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     playButton.visible = !playButton.visible;
@@ -10,21 +10,69 @@ export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Spr
 }
 
 function changeChestsTexture(chests: Sprite[]) {
-    const texture01 = Texture.from('assets/treasure-chest.png');
-    const texture02 = Texture.from('assets/treasure-chest-off.png');
+    const normalTexture = Texture.from('assets/treasure-chest.png');
+    const offTexture = Texture.from('assets/treasure-chest-off.png');
+    const winTexture = Texture.from('assets/treasure-chest-win.png');
+
     chests.forEach(chest => {
-        if(gameState.value === "Initial") {
-            chest.texture = texture01
+        if (gameState.value === "Initial") {
+            chest.texture = normalTexture;
             chest.eventMode = 'static';
             chest.cursor = 'pointer';
-        }
-        else if (gameState.value === "On") {
-            chest.texture = texture02
+        } else if (gameState.value === "On" || gameState.value === "WinOff") {
+            chest.texture = offTexture;
+            chest.eventMode = 'static';
+            chest.cursor = 'pointer';
+        } else if (gameState.value === "WinOn" || gameState.value === "BigWin") {
+            chest.texture = winTexture;
             chest.cursor = 'auto';
         }
     })
 }
 
-export function onChestClick(chest: Sprite, otherChests: Sprite[]) {
+export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
+    if (chest["used"] === true) {
+        return;
+    }
 
+    numberOfChestsOpened.value++;
+
+    const winType = generateWin();
+
+    if (winType === "NoWin") {
+        gameState.value = "WinOff";
+    } else if (winType === "NormalWin") {
+        gameState.value = "WinOn";
+    } else if (winType === "BigWin") {
+        gameState.value = "BigWin";
+    }
+
+    changeChestsTexture([chest]);
+    chest["used"] = true;
+
+    if (numberOfChestsOpened.value === 6) {
+        onComplete();
+        numberOfChestsOpened.value = 0;
+
+        chest["used"] = false;
+        otherChests.forEach(chest => {
+            chest["used"] = false
+        })
+    }
+}
+
+type WinType = "NoWin" | "NormalWin" | "BigWin"
+
+export function generateWin(): WinType {
+    // Return a random integer between 1 and 10 (both included):
+    const draw = Math.floor(Math.random() * 10) + 1;
+
+    if (draw < 11)
+        return "BigWin";
+
+    if (draw > 2) {
+        return "NormalWin"
+    }
+
+    return "NoWin"
 }
