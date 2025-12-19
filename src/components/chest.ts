@@ -1,25 +1,25 @@
-import { Application, Sprite } from "pixi.js";
+import { Application, Container, Sprite } from "pixi.js";
 import { SPRITE_SIZE } from "./consts.ts";
 
-export function addChests(app: Application) {
+export function addChests(app: Application, mainPage: Container) {
     const chests: Sprite[] = [];
 
     for(let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
-            chests.push(addChest(app, i, j));
+            chests.push(addChest(app, mainPage, i, j));
         }
     }
 
     return chests;
 }
 
-function addChest(app:Application, column: number, row: number) {
+function addChest(app:Application, mainPage: Container, column: number, row: number) {
     const chest = Sprite.from("chest");
 
     chest.alpha = 0.5;
     styleChest(app, chest, column, row);
 
-    app.stage.addChild(chest);
+    mainPage.addChild(chest);
 
     return chest;
 }

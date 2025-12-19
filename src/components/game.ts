@@ -1,4 +1,4 @@
-import { Sprite, Text, Texture } from "pixi.js";
+import { Application, Sprite, Text, Texture } from "pixi.js";
 import { BONUS_WIN, gameState, NORMAL_WIN, numberOfChestsOpened, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
 import {
     changeChestsMarking,
@@ -8,15 +8,16 @@ import {
 } from "./chest.ts";
 import { togglePlayButton } from "./playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./win.ts";
+import { hideMainPage } from "./bonus.ts";
 
-export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
+export function startGame(app: Application, playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
 
-    changeChestsTexture(chests);
+    changeChestsTexture(app, chests);
     gameState.value = "Ready";
 }
 
-function changeChestsTexture(chests: Sprite[]) {
+function changeChestsTexture(app: Application, chests: Sprite[]) {
     const normalTexture = Texture.from('assets/treasure-chest.png');
     const offTexture = Texture.from('assets/treasure-chest-off.png');
     const winTexture = Texture.from('assets/treasure-chest-win.png');
@@ -38,11 +39,12 @@ function changeChestsTexture(chests: Sprite[]) {
         } else if (gameState.value === "BonusWin") {
             chest.texture = bonusTexture;
             chest.cursor = 'auto';
+            // hideMainPage(app)
         }
     })
 }
 
-export function onChestClick(chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
+export function onChestClick(app: Application, chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
     if (chest["used"] === true) {
         return;
     }
@@ -66,7 +68,7 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], balanceSprite
 
     balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
 
-    changeChestsTexture([chest]);
+    changeChestsTexture(app, [chest]);
     chest["used"] = true;
     changeChestsMarking(chest, otherChests)
 

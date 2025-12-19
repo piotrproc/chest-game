@@ -1,8 +1,8 @@
-import { Application, Sprite } from "pixi.js";
+import { Application, Container, Sprite } from "pixi.js";
 
-export function addPlayButtons(app: Application) {
-    const playButton = addPlayButtonTemplate(app, "playButton");
-    const playButtonOff = addPlayButtonTemplate(app, "playButtonOff");
+export function addPlayButtons(app: Application, mainPage: Container) {
+    const playButton = addPlayButtonTemplate(app, mainPage, "playButton");
+    const playButtonOff = addPlayButtonTemplate(app, mainPage, "playButtonOff");
     playButtonOff.visible = false;
 
     return {
@@ -11,7 +11,7 @@ export function addPlayButtons(app: Application) {
     };
 }
 
-function addPlayButtonTemplate(app: Application, texture: string) {
+function addPlayButtonTemplate(app: Application, mainPage:Container, texture: string) {
     const playButton = Sprite.from(texture);
 
     stylePlayButton(app, playButton);
@@ -20,7 +20,7 @@ function addPlayButtonTemplate(app: Application, texture: string) {
     playButton.eventMode = texture === "playButton" ? "static" : "none";
     playButton.cursor = texture === "playButton" ? "pointer" : "none";
 
-    app.stage.addChild(playButton);
+    mainPage.addChild(playButton);
     return playButton;
 }
 

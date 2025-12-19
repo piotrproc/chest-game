@@ -1,10 +1,11 @@
-import { Application, Assets } from 'pixi.js';
+import { Application, Assets, Container } from 'pixi.js';
 import { addPlayButtons, togglePlayButton } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
 import { addChests, restoreChestWidth } from "./components/chest.ts";
 import { onChestClick, startGame } from "./components/game.ts";
 import { gameState } from "./components/consts.ts";
 import { addBalanceHolder } from "./components/win.ts";
+import { createBonusPage } from "./components/bonus.ts";
 
 (async () => {
     const app = new Application();
@@ -32,25 +33,37 @@ import { addBalanceHolder } from "./components/win.ts";
 
     gameState.value = "Initial";
 
-    const balanceSprite = addBalanceHolder(app)
-    addMainPageTitle(app);
-    const chests = addChests(app);
-    const {playButton, playButtonOff} = addPlayButtons(app);
+    const mainPage = new Container();
+
+    const balanceSprite = addBalanceHolder(app, mainPage);
+    addMainPageTitle(app, mainPage, "Main game Screen");
+    const chests = addChests(app, mainPage);
+    const {playButton, playButtonOff} = addPlayButtons(app, mainPage);
+
+    mainPage.visible = true;
+
+    app.stage.addChild(mainPage);
 
     playButton.addListener('pointerdown', () => {
         gameState.value = "Initial";
-        startGame(playButton, playButtonOff, chests)
+        startGame(app, playButton, playButtonOff, chests)
         restoreChestWidth(chests)
     });
 
     chests.forEach(chest => {
         chest.addListener('pointerdown', () => {
             const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
-            onChestClick(chest, otherChests, balanceSprite, () => {
+            onChestClick(app, chest, otherChests, balanceSprite, () => {
                 gameState.value = "Initial";
                 togglePlayButton(playButton, playButtonOff);
             })
         })
     })
+
+    const bonusPage = new Container();
+    bonusPage.visible = false;
+    createBonusPage(app, bonusPage)
+
+    app.stage.addChild(bonusPage);
 
 })();
