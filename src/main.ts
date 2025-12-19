@@ -28,7 +28,8 @@ import { createBonusPage } from "./components/bonus.ts";
         {alias: "chest", src: "assets/treasure-chest.png"},
         {alias: "chestOff", src: "assets/treasure-chest-off.png"},
         {alias: "chestWin", src: "assets/treasure-chest-win.png"},
-        {alias: "chestBonus", src: "assets/treasure-chest-bonus.png"}
+        {alias: "chestBonus", src: "assets/treasure-chest-bonus.png"},
+        {alias: "heart", src: "assets/heart.png"}
     ]);
 
     gameState.value = "Initial";

@@ -10,8 +10,14 @@ export function hideMainPage(app: Application) {
 export function createBonusPage(app:Application, bonusPage: Container) {
     addMainPageTitle(app, bonusPage, "Bonus Screen");
 
-    addBonusPageContent(app, bonusPage, `Win Amount ${BONUS_WIN}`);
+    addBonusPageContent(app, bonusPage, `Win Amount: ${BONUS_WIN}`);
 
-    createParticles(app, bonusPage)
+    const ticker = createParticles(app, bonusPage)
+
+    setTimeout(function (){
+        ticker.stop();
+        app.stage.children[1].visible = false;
+        app.stage.children[0].visible = true;
+    }, 2000)
 }
 

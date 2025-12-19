@@ -13,16 +13,16 @@ export function createParticles(app: Application, bonusPage: Container) {
     });
 
     // Add particles
-    const texture = Texture.from('assets/play-button-on.png');
+    const texture = Texture.from('assets/heart.png');
 
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < 25; ++i) {
         const particle = new Particle({
             texture,
-            x: Math.random() * 800,
-            y: Math.random() * 600,
+            x: Math.random() * app.screen.width,
+            y: Math.random() * app.screen.height,
         });
 
-        particle.tint = Math.random() * 0x808080;
+        particle.tint = Math.random() * 0xffffff;
 
         // create a random direction in radians
         particle.direction = Math.random() * Math.PI * 2;
@@ -31,7 +31,7 @@ export function createParticles(app: Application, bonusPage: Container) {
         particle.turningSpeed = Math.random() - 0.8;
 
         // create a random speed between 0 - 2, and these maggots are slooww
-        particle.speed = (2 + Math.random() * 2) * 0.2;
+        particle.speed = (2 + Math.random() * 2) * 0.5;
 
         particle.offset = Math.random() * 100;
 
@@ -62,6 +62,7 @@ export function createParticles(app: Application, bonusPage: Container) {
         }
     });
 
-    ticker.start()
+    ticker.start();
+    return ticker;
 }
 
