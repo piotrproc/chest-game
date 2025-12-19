@@ -44,7 +44,8 @@ import { gameState } from "./components/consts.ts";
             const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
             onChestClick(chest, otherChests, () => {
                 gameState.value = "Initial";
-                startGame(playButton, playButtonOff, chests)
+                playButton.visible = !playButton.visible;
+                playButtonOff.visible = !playButtonOff.visible;
             })
         })
     })
