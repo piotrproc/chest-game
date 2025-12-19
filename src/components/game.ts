@@ -56,11 +56,11 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], balanceSprite
         createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
     } else if (winType === "NormalWin") {
         gameState.value = "NormalWin";
-        createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
+        createRotationAnimation(chest, 0.1, () => enableNotUsedChests(otherChests))
         yourBalance.value += NORMAL_WIN;
     } else if (winType === "BonusWin") {
         gameState.value = "BonusWin";
-        createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
+        createRotationAnimation(chest, 0.25, () => enableNotUsedChests(otherChests))
         yourBalance.value += BONUS_WIN;
     }
 

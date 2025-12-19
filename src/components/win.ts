@@ -1,12 +1,12 @@
 import { Application, Sprite, Ticker, Text } from "pixi.js";
 import { SPRITE_SIZE, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
 
-export function createRotationAnimation(sprite: Sprite, onComplete) {
+export function createRotationAnimation(sprite: Sprite, speed: number, onComplete) {
     // Basic ticker usage with different time units
     const ticker = new Ticker();
     ticker.add((ticker) => {
         // Frame-independent animation using dimensionless deltaTime
-        sprite.rotation += 0.1 * ticker.deltaTime;
+        sprite.rotation += speed * ticker.deltaTime;
     });
     ticker.start();
 
