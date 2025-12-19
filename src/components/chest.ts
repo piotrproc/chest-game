@@ -50,6 +50,11 @@ export function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
     otherChests.forEach(chest => {
         chest.alpha = 0.5;
     });
+
+    otherChests.forEach(chest => {
+        chest.eventMode = 'none';
+        chest.cursor = 'none';
+    })
 }
 
 export function restoreUsedChests(chests: Sprite[]) {
@@ -65,6 +70,11 @@ function getNotUsedChests(otherChests: Sprite[]) {
 export function enableNotUsedChests(otherChests: Sprite[]) {
     const notUsedChests = getNotUsedChests(otherChests);
     enableChests(notUsedChests);
+
+    notUsedChests.forEach(chest => {
+        chest.eventMode = 'static';
+        chest.cursor = 'pointer';
+    })
 }
 
 export function restoreChestWidth(chests: Sprite[]) {
