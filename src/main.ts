@@ -4,6 +4,7 @@ import { addMainPageTitle } from "./components/texts.ts";
 import { addChests, restoreChestWidth } from "./components/chest.ts";
 import { onChestClick, startGame } from "./components/game.ts";
 import { gameState } from "./components/consts.ts";
+import { addBalanceHolder } from "./components/win.ts";
 
 (async () => {
     const app = new Application();
@@ -30,6 +31,7 @@ import { gameState } from "./components/consts.ts";
 
     gameState.value = "Initial";
 
+    const balanceSprite = addBalanceHolder(app)
     addMainPageTitle(app);
     const chests = addChests(app);
     const {playButton, playButtonOff} = addPlayButtons(app);
@@ -43,7 +45,7 @@ import { gameState } from "./components/consts.ts";
     chests.forEach(chest => {
         chest.addListener('pointerdown', () => {
             const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
-            onChestClick(chest, otherChests, () => {
+            onChestClick(chest, otherChests, balanceSprite, () => {
                 gameState.value = "Initial";
                 togglePlayButton(playButton, playButtonOff);
             })

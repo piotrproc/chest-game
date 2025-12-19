@@ -8,3 +8,7 @@ type GameState = {
 export const gameState: GameState = {value: "Initial"}
 
 export const numberOfChestsOpened = {value: 0};
+
+export const yourBalance = {value: 0};
+
+export const YOU_WIN_TEXT = "You win: ";

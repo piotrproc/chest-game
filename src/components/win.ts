@@ -1,5 +1,5 @@
-import { Sprite, Ticker } from "pixi.js";
-import { SPRITE_SIZE } from "./consts.ts";
+import { Application, Sprite, Ticker, Text } from "pixi.js";
+import { SPRITE_SIZE, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
 
 export function createRotationAnimation(sprite: Sprite, onComplete) {
     // Basic ticker usage with different time units
@@ -33,4 +33,15 @@ export function createReductionAnimation(sprite: Sprite, onComplete) {
         ticker.stop();
         onComplete()
     }, (1000))
+}
+
+export function addBalanceHolder(app: Application): Text {
+    const balanceText = new Text(YOU_WIN_TEXT + yourBalance.value);
+
+    balanceText.anchor.set(0.5);
+    balanceText.x = app.screen.width * (1 / 2);
+    balanceText.y = app.screen.height * (5 / 7) + 25;
+
+    app.stage.addChild(balanceText);
+    return balanceText;
 }

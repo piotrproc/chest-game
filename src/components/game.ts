@@ -1,5 +1,5 @@
-import { Sprite, Texture } from "pixi.js";
-import { gameState, numberOfChestsOpened } from "./consts.ts";
+import { Sprite, Text, Texture } from "pixi.js";
+import { gameState, numberOfChestsOpened, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -38,7 +38,7 @@ function changeChestsTexture(chests: Sprite[]) {
     })
 }
 
-export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: () => void) {
+export function onChestClick(chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
     if (chest["used"] === true) {
         return;
     }
@@ -53,10 +53,13 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: (
     } else if (winType === "NormalWin") {
         gameState.value = "NormalWin";
         createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
+        yourBalance.value += 10;
     } else if (winType === "BonusWin") {
         gameState.value = "BonusWin";
         createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
     }
+
+    balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
 
     changeChestsTexture([chest]);
     chest["used"] = true;
