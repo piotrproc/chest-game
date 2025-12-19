@@ -2,7 +2,7 @@ import { Application, Assets } from 'pixi.js';
 import { addPlayButtons } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
 import { addChests } from "./components/chest.ts";
-import { onChestClick, startGame } from "./components/game.ts";
+import { onChestClick, startGame, togglePlayButton } from "./components/game.ts";
 import { gameState } from "./components/consts.ts";
 
 (async () => {
@@ -44,8 +44,7 @@ import { gameState } from "./components/consts.ts";
             const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
             onChestClick(chest, otherChests, () => {
                 gameState.value = "Initial";
-                playButton.visible = !playButton.visible;
-                playButtonOff.visible = !playButtonOff.visible;
+                togglePlayButton(playButton, playButtonOff);
             })
         })
     })

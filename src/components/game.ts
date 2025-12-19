@@ -3,11 +3,15 @@ import { gameState, numberOfChestsOpened } from "./consts.ts";
 import { disableChests } from "./chest.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
-    playButton.visible = !playButton.visible;
-    playButtonOff.visible = !playButtonOff.visible;
+    togglePlayButton(playButton, playButtonOff);
 
     changeChestsTexture(chests);
     gameState.value = "Ready";
+}
+
+export function togglePlayButton(playButton: Sprite, playButtonOff: Sprite) {
+    playButton.visible = !playButton.visible;
+    playButtonOff.visible = !playButtonOff.visible;
 }
 
 function changeChestsTexture(chests: Sprite[]) {
@@ -40,7 +44,7 @@ function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
     });
 }
 
-export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete) {
+export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: () => void) {
     if (chest["used"] === true) {
         return;
     }
