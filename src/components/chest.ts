@@ -38,6 +38,12 @@ export function disableChests(chests: Sprite[]) {
     })
 }
 
+export function enableChests(chests: Sprite[]) {
+    chests.forEach(chest => {
+        chest.alpha = 1;
+    })
+}
+
 export function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
     chest.alpha = 1;
     otherChests.forEach(chest => {
@@ -49,4 +55,13 @@ export function restoreUsedChests(chests: Sprite[]) {
     chests.forEach(chest => {
         chest["used"] = false
     })
+}
+
+function getNotUsedChests(otherChests: Sprite[]) {
+    return otherChests.filter(chest => chest["used"] !== true);
+}
+
+export function enableNotUsedChests(otherChests: Sprite[]) {
+    const notUsedChests = getNotUsedChests(otherChests);
+    enableChests(notUsedChests);
 }

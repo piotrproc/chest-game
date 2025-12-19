@@ -1,7 +1,14 @@
 import { Sprite, Texture } from "pixi.js";
 import { gameState, numberOfChestsOpened } from "./consts.ts";
-import { changeChestsMarking, disableChests, restoreUsedChests } from "./chest.ts";
+import {
+    changeChestsMarking,
+    disableChests,
+    enableNotUsedChests,
+    getNotUsedChests,
+    restoreUsedChests
+} from "./chest.ts";
 import { togglePlayButton } from "./playButton.ts";
+import { createReductionAnimation, createRotationAnimation } from "./win.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
@@ -43,10 +50,13 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: (
 
     if (winType === "NoWin") {
         gameState.value = "NoWin";
+        createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
     } else if (winType === "NormalWin") {
         gameState.value = "NormalWin";
+        createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
     } else if (winType === "BonusWin") {
         gameState.value = "BonusWin";
+        createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
     }
 
     changeChestsTexture([chest]);
