@@ -10,14 +10,14 @@ import { togglePlayButton } from "./playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./win.ts";
 import { hideMainPageAndShowBonus } from "./bonus.ts";
 
-export function startGame(app: Application, playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
+export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
 
-    changeChestsTexture(app, chests);
+    changeChestsTexture(chests);
     gameState.value = "Ready";
 }
 
-function changeChestsTexture(app: Application, chests: Sprite[]) {
+function changeChestsTexture(chests: Sprite[]) {
     const normalTexture = Texture.from('assets/treasure-chest.png');
     const offTexture = Texture.from('assets/treasure-chest-off.png');
     const winTexture = Texture.from('assets/treasure-chest-win.png');
@@ -36,11 +36,9 @@ function changeChestsTexture(app: Application, chests: Sprite[]) {
         } else if (gameState.value === "NormalWin") {
             chest.texture = winTexture;
             chest.cursor = 'auto';
-            hideMainPageAndShowBonus(app)
         } else if (gameState.value === "BonusWin") {
             chest.texture = bonusTexture;
             chest.cursor = 'auto';
-            hideMainPageAndShowBonus(app)
         }
     })
 }
@@ -59,17 +57,22 @@ export function onChestClick(app: Application, chest: Sprite, otherChests: Sprit
         createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
     } else if (winType === "NormalWin") {
         gameState.value = "NormalWin";
-        createRotationAnimation(chest, 0.1, () => enableNotUsedChests(otherChests))
+        createRotationAnimation(chest, 0.1, () => {
+            enableNotUsedChests(otherChests);
+        })
         yourBalance.value += NORMAL_WIN;
     } else if (winType === "BonusWin") {
         gameState.value = "BonusWin";
-        createRotationAnimation(chest, 0.25, () => enableNotUsedChests(otherChests))
+        createRotationAnimation(chest, 0.25, () => {
+            enableNotUsedChests(otherChests);
+            setTimeout(() => hideMainPageAndShowBonus(app), 1000);
+        })
         yourBalance.value += BONUS_WIN;
     }
 
     balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
 
-    changeChestsTexture(app, [chest]);
+    changeChestsTexture([chest]);
     chest["used"] = true;
     changeChestsMarking(chest, otherChests)
 

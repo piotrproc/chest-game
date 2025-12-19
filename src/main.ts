@@ -47,7 +47,7 @@ import { createBonusPage } from "./components/bonus.ts";
 
     playButton.addListener('pointerdown', () => {
         gameState.value = "Initial";
-        startGame(app, playButton, playButtonOff, chests)
+        startGame(playButton, playButtonOff, chests)
         restoreChestWidth(chests)
     });
 
