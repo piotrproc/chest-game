@@ -66,7 +66,7 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: (
         onComplete();
         numberOfChestsOpened.value = 0;
         restoreUsedChests([chest, ...otherChests]);
-        disableChests([chest, ...otherChests]);
+        disableChests(otherChests);
 
         [chest, ...otherChests].forEach(chest => {
             chest.eventMode = 'none';
