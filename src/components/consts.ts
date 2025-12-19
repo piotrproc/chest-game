@@ -12,3 +12,7 @@ export const numberOfChestsOpened = {value: 0};
 export const yourBalance = {value: 0};
 
 export const YOU_WIN_TEXT = "You win: ";
+
+export const NORMAL_WIN = 10;
+
+export const BONUS_WIN = 100;

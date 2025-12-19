@@ -26,7 +26,8 @@ import { addBalanceHolder } from "./components/win.ts";
         {alias: "playButtonOff", src: "assets/play-button-off.png"},
         {alias: "chest", src: "assets/treasure-chest.png"},
         {alias: "chestOff", src: "assets/treasure-chest-off.png"},
-        {alias: "chestWin", src: "assets/treasure-chest-win.png"}
+        {alias: "chestWin", src: "assets/treasure-chest-win.png"},
+        {alias: "chestBonus", src: "assets/treasure-chest-bonus.png"}
     ]);
 
     gameState.value = "Initial";

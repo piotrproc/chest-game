@@ -1,5 +1,5 @@
 import { Sprite, Text, Texture } from "pixi.js";
-import { gameState, numberOfChestsOpened, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
+import { BONUS_WIN, gameState, NORMAL_WIN, numberOfChestsOpened, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -20,6 +20,7 @@ function changeChestsTexture(chests: Sprite[]) {
     const normalTexture = Texture.from('assets/treasure-chest.png');
     const offTexture = Texture.from('assets/treasure-chest-off.png');
     const winTexture = Texture.from('assets/treasure-chest-win.png');
+    const bonusTexture = Texture.from('assets/treasure-chest-bonus.png');
 
     chests.forEach(chest => {
         if (gameState.value === "Initial") {
@@ -31,8 +32,11 @@ function changeChestsTexture(chests: Sprite[]) {
             chest.texture = offTexture;
             chest.alpha = 1;
             chest.cursor = 'auto';
-        } else if (gameState.value === "NormalWin" || gameState.value === "BonusWin") {
+        } else if (gameState.value === "NormalWin") {
             chest.texture = winTexture;
+            chest.cursor = 'auto';
+        } else if (gameState.value === "BonusWin") {
+            chest.texture = bonusTexture;
             chest.cursor = 'auto';
         }
     })
@@ -53,10 +57,11 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], balanceSprite
     } else if (winType === "NormalWin") {
         gameState.value = "NormalWin";
         createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
-        yourBalance.value += 10;
+        yourBalance.value += NORMAL_WIN;
     } else if (winType === "BonusWin") {
         gameState.value = "BonusWin";
         createRotationAnimation(chest, () => enableNotUsedChests(otherChests))
+        yourBalance.value += BONUS_WIN;
     }
 
     balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
