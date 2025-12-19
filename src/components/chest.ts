@@ -37,3 +37,16 @@ export function disableChests(chests: Sprite[]) {
         chest.alpha = 0.5;
     })
 }
+
+export function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
+    chest.alpha = 1;
+    otherChests.forEach(chest => {
+        chest.alpha = 0.5;
+    });
+}
+
+export function restoreUsedChests(chests: Sprite[]) {
+    chests.forEach(chest => {
+        chest["used"] = false
+    })
+}

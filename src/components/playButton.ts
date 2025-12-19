@@ -17,8 +17,8 @@ function addPlayButtonTemplate(app: Application, texture: string) {
     stylePlayButton(app, playButton);
 
     // Set the interactivity.
-    playButton.eventMode = 'static';
-    playButton.cursor = 'pointer';
+    playButton.eventMode = texture === "playButton" ? "static" : "none";
+    playButton.cursor = texture === "playButton" ? "pointer" : "none";
 
     app.stage.addChild(playButton);
     return playButton;
@@ -32,4 +32,9 @@ function stylePlayButton(app: Application, playButton: Sprite) {
 
     playButton.eventMode = 'static';
     playButton.cursor = 'pointer';
+}
+
+export function togglePlayButton(playButton: Sprite, playButtonOff: Sprite) {
+    playButton.visible = !playButton.visible;
+    playButtonOff.visible = !playButtonOff.visible;
 }

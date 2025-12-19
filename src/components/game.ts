@@ -1,17 +1,13 @@
 import { Sprite, Texture } from "pixi.js";
 import { gameState, numberOfChestsOpened } from "./consts.ts";
-import { disableChests } from "./chest.ts";
+import { changeChestsMarking, disableChests, restoreUsedChests } from "./chest.ts";
+import { togglePlayButton } from "./playButton.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
 
     changeChestsTexture(chests);
     gameState.value = "Ready";
-}
-
-export function togglePlayButton(playButton: Sprite, playButtonOff: Sprite) {
-    playButton.visible = !playButton.visible;
-    playButtonOff.visible = !playButtonOff.visible;
 }
 
 function changeChestsTexture(chests: Sprite[]) {
@@ -28,20 +24,12 @@ function changeChestsTexture(chests: Sprite[]) {
         } else if (gameState.value === "Ready" || gameState.value === "NoWin") {
             chest.texture = offTexture;
             chest.alpha = 1;
-            chest.eventMode = 'static';
-            chest.cursor = 'pointer';
+            chest.cursor = 'auto';
         } else if (gameState.value === "NormalWin" || gameState.value === "BonusWin") {
             chest.texture = winTexture;
             chest.cursor = 'auto';
         }
     })
-}
-
-function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
-    chest.alpha = 1;
-    otherChests.forEach(chest => {
-        chest.alpha = 0.5;
-    });
 }
 
 export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: () => void) {
@@ -68,7 +56,7 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: (
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
-        restoreChests([chest, ...otherChests]);
+        restoreUsedChests([chest, ...otherChests]);
         disableChests([chest, ...otherChests]);
 
         [chest, ...otherChests].forEach(chest => {
@@ -76,12 +64,6 @@ export function onChestClick(chest: Sprite, otherChests: Sprite[], onComplete: (
             chest.cursor = 'none';
         })
     }
-}
-
-function restoreChests(chests: Sprite[]) {
-    chests.forEach(chest => {
-        chest["used"] = false
-    })
 }
 
 type WinType = "NoWin" | "NormalWin" | "BonusWin"
