@@ -40,7 +40,7 @@ import { createBonusPage } from "./components/bonus.ts";
     const chests = addChests(app, mainPage);
     const {playButton, playButtonOff} = addPlayButtons(app, mainPage);
 
-    mainPage.visible = true;
+    mainPage.visible = false;
 
     app.stage.addChild(mainPage);
 
@@ -61,9 +61,8 @@ import { createBonusPage } from "./components/bonus.ts";
     })
 
     const bonusPage = new Container();
-    bonusPage.visible = false;
+    bonusPage.visible = true;
     createBonusPage(app, bonusPage)
 
     app.stage.addChild(bonusPage);
-
 })();
