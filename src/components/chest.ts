@@ -1,4 +1,5 @@
 import { Application, Sprite } from "pixi.js";
+import { SPRITE_SIZE } from "./consts.ts";
 
 export function addChests(app: Application) {
     const chests: Sprite[] = [];
@@ -64,4 +65,10 @@ function getNotUsedChests(otherChests: Sprite[]) {
 export function enableNotUsedChests(otherChests: Sprite[]) {
     const notUsedChests = getNotUsedChests(otherChests);
     enableChests(notUsedChests);
+}
+
+export function restoreChestWidth(chests: Sprite[]) {
+    chests.forEach(chest => {
+        chest.width = SPRITE_SIZE
+    })
 }

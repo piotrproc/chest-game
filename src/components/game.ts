@@ -4,7 +4,6 @@ import {
     changeChestsMarking,
     disableChests,
     enableNotUsedChests,
-    getNotUsedChests,
     restoreUsedChests
 } from "./chest.ts";
 import { togglePlayButton } from "./playButton.ts";

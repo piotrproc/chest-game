@@ -1,7 +1,7 @@
 import { Application, Assets } from 'pixi.js';
 import { addPlayButtons, togglePlayButton } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
-import { addChests } from "./components/chest.ts";
+import { addChests, restoreChestWidth } from "./components/chest.ts";
 import { onChestClick, startGame } from "./components/game.ts";
 import { gameState } from "./components/consts.ts";
 
@@ -37,6 +37,7 @@ import { gameState } from "./components/consts.ts";
     playButton.addListener('pointerdown', () => {
         gameState.value = "Initial";
         startGame(playButton, playButtonOff, chests)
+        restoreChestWidth(chests)
     });
 
     chests.forEach(chest => {
