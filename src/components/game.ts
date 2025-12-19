@@ -8,7 +8,7 @@ import {
 } from "./chest.ts";
 import { togglePlayButton } from "./playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./win.ts";
-import { hideMainPage } from "./bonus.ts";
+import { hideMainPageAndShowBonus } from "./bonus.ts";
 
 export function startGame(app: Application, playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
@@ -36,10 +36,11 @@ function changeChestsTexture(app: Application, chests: Sprite[]) {
         } else if (gameState.value === "NormalWin") {
             chest.texture = winTexture;
             chest.cursor = 'auto';
+            hideMainPageAndShowBonus(app)
         } else if (gameState.value === "BonusWin") {
             chest.texture = bonusTexture;
             chest.cursor = 'auto';
-            // hideMainPage(app)
+            hideMainPageAndShowBonus(app)
         }
     })
 }
