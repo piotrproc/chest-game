@@ -1,4 +1,3 @@
-export const POSSIBLE_THEMES = ["halloween", "fruits"]
 export const SPRITE_SIZE = 128;
 
 type GameState = {
