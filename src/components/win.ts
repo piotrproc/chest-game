@@ -33,7 +33,7 @@ export function createReductionAnimation(sprite: Sprite, onComplete) {
     setTimeout(function () {
         ticker.stop();
         onComplete()
-    }, (1000))
+    }, 1000)
 }
 
 export function addBalanceHolder(app: Application, mainPage: Container): Text {

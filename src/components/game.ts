@@ -4,7 +4,6 @@ import {
     changeChestsMarking,
     disableChests,
     enableNotUsedChests,
-    restoreUsedChests
 } from "./chest.ts";
 import { togglePlayButton } from "./playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./win.ts";
@@ -66,7 +65,7 @@ export function onChestClick(app: Application, chest: Sprite, otherChests: Sprit
         gameState.value = "BonusWin";
         createRotationAnimation(chest, 0.25, () => {
             enableNotUsedChests(otherChests);
-            setTimeout(() => hideMainPageAndShowBonus(app), 1000);
+            setTimeout(() => hideMainPageAndShowBonus(app), 200);
         })
         yourBalance.value += BONUS_WIN;
     }
@@ -80,13 +79,7 @@ export function onChestClick(app: Application, chest: Sprite, otherChests: Sprit
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
-        restoreUsedChests([chest, ...otherChests]);
         disableChests(otherChests);
-
-        [chest, ...otherChests].forEach(chest => {
-            chest.eventMode = 'none';
-            chest.cursor = 'none';
-        })
     }
 }
 

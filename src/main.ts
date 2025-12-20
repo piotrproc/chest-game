@@ -1,7 +1,7 @@
 import { Application, Assets, Container } from 'pixi.js';
 import { addPlayButtons, togglePlayButton } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
-import { addChests, restoreChestWidth } from "./components/chest.ts";
+import { addChests, restoreChestWidth, restoreUsedChests } from "./components/chest.ts";
 import { onChestClick, startGame } from "./components/game.ts";
 import { addBalanceHolder } from "./components/win.ts";
 import { createBonusPage } from "./components/bonus.ts";
@@ -49,6 +49,7 @@ import { gameState } from "./components/states.ts";
         gameState.value = "Initial";
         startGame(playButton, playButtonOff, chests)
         restoreChestWidth(chests)
+        restoreUsedChests(chests);
     });
 
     chests.forEach(chest => {
