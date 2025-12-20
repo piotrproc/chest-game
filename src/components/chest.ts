@@ -51,15 +51,15 @@ export function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
         chest.alpha = 0.5;
     });
 
-    otherChests.forEach(chest => {
-        chest.eventMode = 'none';
-        chest.cursor = 'none';
+    otherChests.forEach(_chest => {
+        _chest.eventMode = 'none';
+        _chest.cursor = 'none';
     })
 }
 
 export function restoreUsedChests(chests: Sprite[]) {
-    chests.forEach(chest => {
-        chest["used"] = false
+    chests.forEach(_chest => {
+        _chest["used"] = false;
     })
 }
 

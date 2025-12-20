@@ -3,9 +3,9 @@ import { addPlayButtons, togglePlayButton } from "./components/playButton.ts";
 import { addMainPageTitle } from "./components/texts.ts";
 import { addChests, restoreChestWidth } from "./components/chest.ts";
 import { onChestClick, startGame } from "./components/game.ts";
-import { gameState } from "./components/consts.ts";
 import { addBalanceHolder } from "./components/win.ts";
 import { createBonusPage } from "./components/bonus.ts";
+import { gameState } from "./components/states.ts";
 
 (async () => {
     const app = new Application();

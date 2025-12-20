@@ -1,5 +1,5 @@
 import { Application, Sprite, Text, Texture } from "pixi.js";
-import { BONUS_WIN, gameState, NORMAL_WIN, numberOfChestsOpened, YOU_WIN_TEXT, yourBalance } from "./consts.ts";
+import { BONUS_WIN, NORMAL_WIN, YOU_WIN_TEXT } from "./consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -9,6 +9,7 @@ import {
 import { togglePlayButton } from "./playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./win.ts";
 import { hideMainPageAndShowBonus } from "./bonus.ts";
+import { gameState, numberOfChestsOpened, yourBalance } from "./states.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
