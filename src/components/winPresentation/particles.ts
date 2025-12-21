@@ -25,15 +25,15 @@ export function createParticles(app: Application, bonusPage: Container) {
         particle.tint = Math.random() * 0xffffff;
 
         // create a random direction in radians
-        particle.direction = Math.random() * Math.PI * 2;
+        particle["direction"] = Math.random() * Math.PI * 2;
 
         // this number will be used to modify the direction of the sprite over time
-        particle.turningSpeed = Math.random() - 0.8;
+        particle["turningSpeed"] = Math.random() - 0.8;
 
         // create a random speed between 0 - 2, and these maggots are slooww
-        particle.speed = (2 + Math.random() * 2) * 0.5;
+        particle["speed"] = (2 + Math.random() * 2) * 0.5;
 
-        particle.offset = Math.random() * 100;
+        particle["offset"] = Math.random() * 100;
 
         container.addParticle(particle);
     }
@@ -56,9 +56,9 @@ export function createParticles(app: Application, bonusPage: Container) {
             }
 
             //sprite.direction += sprite.turningSpeed * 0.01;
-            sprite.x += Math.sin(sprite.direction) * sprite.speed;
-            sprite.y += Math.cos(sprite.direction) * sprite.speed;
-            sprite.rotation += sprite.turningSpeed / 100;
+            sprite.x += Math.sin(sprite["direction"]) * sprite["speed"];
+            sprite.y += Math.cos(sprite["direction"]) * sprite["speed"];
+            sprite.rotation += sprite["turningSpeed"] / 100;
         }
     });
 

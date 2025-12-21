@@ -8,8 +8,8 @@ import { COST_OF_ROUND, YOUR_BALANCE_TEXT } from "./globalVariables/consts.ts";
 
 export function onPlayButtonClicked(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[], moneyInfo: IMONEY_INFO) {
     gameState.value = "Initial";
-    startGame(playButton, playButtonOff, chests)
-    restoreChestWidth(chests)
+    startGame(playButton, playButtonOff, chests);
+    restoreChestWidth(chests);
     restoreUsedChests(chests);
 
     yourBalance.value -= COST_OF_ROUND;
