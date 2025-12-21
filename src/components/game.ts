@@ -1,5 +1,5 @@
 import { Application, Sprite, Text, Texture } from "pixi.js";
-import { BONUS_WIN, NORMAL_WIN, YOU_WIN_TEXT } from "./consts.ts";
+import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, YOU_WIN_TEXT } from "./consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -43,7 +43,7 @@ function changeChestsTexture(chests: Sprite[]) {
     })
 }
 
-export function onChestClick(app: Application, chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
+export function handleChestClick(app: Application, chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
     if (chest["used"] === true) {
         return;
     }
@@ -53,29 +53,45 @@ export function onChestClick(app: Application, chest: Sprite, otherChests: Sprit
     const winType = generateWin();
 
     if (winType === "NoWin") {
-        gameState.value = "NoWin";
-        createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
+        handleNoWin(chest, otherChests);
     } else if (winType === "NormalWin") {
-        gameState.value = "NormalWin";
-        createRotationAnimation(chest, 0.1, () => {
-            enableNotUsedChests(otherChests);
-        })
-        yourBalance.value += NORMAL_WIN;
+        handleNormalWin(chest, otherChests);
     } else if (winType === "BonusWin") {
-        gameState.value = "BonusWin";
-        createRotationAnimation(chest, 0.25, () => {
-            enableNotUsedChests(otherChests);
-            setTimeout(() => hideMainPageAndShowBonus(app), 200);
-        })
-        yourBalance.value += BONUS_WIN;
+        handleBonusWin(app, chest, otherChests);
     }
 
     balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
 
     changeChestsTexture([chest]);
     chest["used"] = true;
-    changeChestsMarking(chest, otherChests)
+    changeChestsMarking(chest, otherChests);
 
+    handleCompletionOfRound(onComplete, otherChests);
+}
+
+function handleNoWin(chest: Sprite, otherChests:Sprite[]) {
+    gameState.value = "NoWin";
+    createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
+}
+
+function handleNormalWin(chest: Sprite, otherChests:Sprite[]) {
+    gameState.value = "NormalWin";
+    createRotationAnimation(chest, 0.1, () => {
+        enableNotUsedChests(otherChests);
+    })
+    yourBalance.value += NORMAL_WIN;
+}
+
+function handleBonusWin(app:Application, chest: Sprite, otherChests:Sprite[]) {
+    gameState.value = "BonusWin";
+    createRotationAnimation(chest, 0.25, () => {
+        enableNotUsedChests(otherChests);
+        setTimeout(() => hideMainPageAndShowBonus(app), 200);
+    })
+    yourBalance.value += BONUS_WIN;
+}
+
+function handleCompletionOfRound(onComplete: () => void, otherChests: Sprite[]) {
     if (numberOfChestsOpened.value === 6) {
         onComplete();
         numberOfChestsOpened.value = 0;
@@ -89,10 +105,10 @@ export function generateWin(): WinType {
     // Return a random integer between 1 and 10 (both included):
     const draw = Math.floor(Math.random() * 10) + 1;
 
-    if (draw > 7)
+    if (draw > BONUS_WIN_LEVEL)
         return "BonusWin";
 
-    if (draw > 4) {
+    if (draw > NORMAL_WIN_LEVEL) {
         return "NormalWin"
     }
 

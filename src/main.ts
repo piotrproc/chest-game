@@ -1,11 +1,10 @@
 import { Application, Assets, Container } from 'pixi.js';
-import { addPlayButtons, togglePlayButton } from "./components/playButton.ts";
-import { addMainPageTitle } from "./components/texts.ts";
-import { addChests, restoreChestWidth, restoreUsedChests } from "./components/chest.ts";
-import { onChestClick, startGame } from "./components/game.ts";
-import { addBalanceHolder } from "./components/win.ts";
+import { addPlayButtons } from "./components/playButton.ts";
+import { addBalanceHolder, addMainPageTitle } from "./components/texts.ts";
+import { addChests } from "./components/chest.ts";
 import { createBonusPage } from "./components/bonus.ts";
 import { gameState } from "./components/states.ts";
+import { onChestClicked, onPlayButtonClicked } from "./components/handlers.ts";
 
 (async () => {
     const app = new Application();
@@ -38,7 +37,7 @@ import { gameState } from "./components/states.ts";
 
     const balanceSprite = addBalanceHolder(app, mainPage);
     addMainPageTitle(app, mainPage, "Main game Screen");
-    const chests = addChests(app, mainPage);
+    const allChests = addChests(app, mainPage);
     const {playButton, playButtonOff} = addPlayButtons(app, mainPage);
 
     mainPage.visible = true;
@@ -46,19 +45,12 @@ import { gameState } from "./components/states.ts";
     app.stage.addChild(mainPage);
 
     playButton.addListener('pointerdown', () => {
-        gameState.value = "Initial";
-        startGame(playButton, playButtonOff, chests)
-        restoreChestWidth(chests)
-        restoreUsedChests(chests);
+        onPlayButtonClicked(playButton, playButtonOff, allChests);
     });
 
-    chests.forEach(chest => {
+    allChests.forEach(chest => {
         chest.addListener('pointerdown', () => {
-            const otherChests = chests.filter(_chest => _chest.uid !== chest.uid)
-            onChestClick(app, chest, otherChests, balanceSprite, () => {
-                gameState.value = "Initial";
-                togglePlayButton(playButton, playButtonOff);
-            })
+            onChestClicked(app, chest, allChests, balanceSprite, playButton, playButtonOff)
         })
     })
 

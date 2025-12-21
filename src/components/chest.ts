@@ -4,7 +4,7 @@ import { SPRITE_SIZE } from "./consts.ts";
 export function addChests(app: Application, mainPage: Container) {
     const chests: Sprite[] = [];
 
-    for(let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
             chests.push(addChest(app, mainPage, i, j));
         }
@@ -13,7 +13,7 @@ export function addChests(app: Application, mainPage: Container) {
     return chests;
 }
 
-function addChest(app:Application, mainPage: Container, column: number, row: number) {
+function addChest(app: Application, mainPage: Container, column: number, row: number) {
     const chest = Sprite.from("chest");
 
     chest.alpha = 0.5;
@@ -51,15 +51,15 @@ export function changeChestsMarking(chest: Sprite, otherChests: Sprite[]) {
         chest.alpha = 0.5;
     });
 
-    otherChests.forEach(_chest => {
-        _chest.eventMode = 'none';
-        _chest.cursor = 'none';
+    otherChests.forEach(chest => {
+        chest.eventMode = 'none';
+        chest.cursor = 'none';
     })
 }
 
 export function restoreUsedChests(chests: Sprite[]) {
-    chests.forEach(_chest => {
-        _chest["used"] = false;
+    chests.forEach(chest => {
+        chest["used"] = false;
     })
 }
 
