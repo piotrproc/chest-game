@@ -1,6 +1,6 @@
 import { Application, Container, Text } from "pixi.js";
-import { YOU_WIN_TEXT } from "./consts.ts";
-import { yourBalance } from "./states.ts";
+import { YOU_WIN_TEXT } from "../globalVariables/consts.ts";
+import { yourBalance } from "../globalVariables/states.ts";
 
 export function addMainPageTitle(app: Application, container: Container, text: string): Text {
     const winText = new Text({

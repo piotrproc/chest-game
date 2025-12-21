@@ -1,8 +1,8 @@
-import { gameState } from "./states.ts";
+import { gameState } from "./globalVariables/states.ts";
 import { handleChestClick, startGame } from "./game.ts";
 import { restoreChestWidth, restoreUsedChests } from "./chest.ts";
 import { Application, Sprite, Text } from "pixi.js";
-import { togglePlayButton } from "./playButton.ts";
+import { togglePlayButton } from "./gui/playButton.ts";
 
 export function onPlayButtonClicked(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     gameState.value = "Initial";

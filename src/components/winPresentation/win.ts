@@ -1,5 +1,5 @@
 import { Sprite, Ticker } from "pixi.js";
-import { ANIMATION_TIME, SPRITE_SIZE } from "./consts.ts";
+import { ANIMATION_TIME, SPRITE_SIZE } from "../globalVariables/consts.ts";
 
 export function createRotationAnimation(sprite: Sprite, speed: number, onComplete) {
     // Basic ticker usage with different time units

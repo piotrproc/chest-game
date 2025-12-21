@@ -1,9 +1,9 @@
 import { Application, Assets, Container } from 'pixi.js';
-import { addPlayButtons } from "./components/playButton.ts";
-import { addBalanceHolder, addMainPageTitle } from "./components/texts.ts";
+import { addPlayButtons } from "./components/gui/playButton.ts";
+import { addBalanceHolder, addMainPageTitle } from "./components/gui/texts.ts";
 import { addChests } from "./components/chest.ts";
 import { createBonusPage } from "./components/bonus.ts";
-import { gameState } from "./components/states.ts";
+import { gameState } from "./components/globalVariables/states.ts";
 import { onChestClicked, onPlayButtonClicked } from "./components/handlers.ts";
 
 (async () => {

@@ -1,14 +1,14 @@
 import { Application, Sprite, Text, Texture } from "pixi.js";
-import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, PARTICLE_DELAY, YOU_WIN_TEXT } from "./consts.ts";
+import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, PARTICLE_DELAY, YOU_WIN_TEXT } from "./globalVariables/consts.ts";
 import {
     changeChestsMarking,
     disableChests,
     enableNotUsedChests,
 } from "./chest.ts";
-import { togglePlayButton } from "./playButton.ts";
-import { createReductionAnimation, createRotationAnimation } from "./win.ts";
+import { togglePlayButton } from "./gui/playButton.ts";
+import { createReductionAnimation, createRotationAnimation } from "./winPresentation/win.ts";
 import { hideMainPageAndShowBonus } from "./bonus.ts";
-import { gameState, numberOfChestsOpened, yourBalance } from "./states.ts";
+import { gameState, numberOfChestsOpened, yourBalance } from "./globalVariables/states.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
@@ -60,12 +60,7 @@ export function handleChestClick(app: Application, chest: Sprite, otherChests: S
         handleBonusWin(app, chest, otherChests);
     }
 
-    balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
-
-    changeChestsTexture([chest]);
-    chest["used"] = true;
-    changeChestsMarking(chest, otherChests);
-    handleCompletionOfRound(onComplete, otherChests);
+    handleTurnCompletion(chest, otherChests, balanceSprite ,onComplete);
 }
 
 function handleNoWin(chest: Sprite, otherChests:Sprite[]) {
@@ -88,6 +83,15 @@ function handleBonusWin(app:Application, chest: Sprite, otherChests:Sprite[]) {
         setTimeout(() => hideMainPageAndShowBonus(app), PARTICLE_DELAY);
     })
     yourBalance.value += BONUS_WIN;
+}
+
+function handleTurnCompletion(chest: Sprite, otherChests: Sprite[], balanceSprite: Text, onComplete: () => void) {
+    balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
+
+    changeChestsTexture([chest]);
+    chest["used"] = true;
+    changeChestsMarking(chest, otherChests);
+    handleCompletionOfRound(onComplete, otherChests);
 }
 
 function handleCompletionOfRound(onComplete: () => void, otherChests: Sprite[]) {

@@ -1,5 +1,5 @@
 import { Application, Container, Sprite } from "pixi.js";
-import { SPRITE_SIZE } from "./consts.ts";
+import { SPRITE_SIZE } from "./globalVariables/consts.ts";
 
 export function addChests(app: Application, mainPage: Container) {
     const chests: Sprite[] = [];

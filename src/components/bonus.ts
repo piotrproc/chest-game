@@ -1,7 +1,7 @@
 import { Application, Container } from "pixi.js";
-import { addBonusPageContent, addMainPageTitle } from "./texts.ts";
-import { BONUS_WIN, PARTICLE_PRESENT_TIME } from "./consts.ts";
-import { createParticles } from "./particles.ts";
+import { addBonusPageContent, addMainPageTitle } from "./gui/texts.ts";
+import { BONUS_WIN, PARTICLE_PRESENT_TIME } from "./globalVariables/consts.ts";
+import { createParticles } from "./winPresentation/particles.ts";
 
 export function hideMainPageAndShowBonus(app: Application) {
     app.stage.children[0].visible = false;
