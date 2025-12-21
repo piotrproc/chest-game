@@ -1,4 +1,4 @@
-# Pixi Generic Slot
+# Chest Game
 
 ## Installation
 
@@ -18,6 +18,6 @@ npm run dev
 ## Notes
 
 - Game is deployed by vercel:
-    - https://game-code-hq-slot-8d2e.vercel.app/
+    - https://chest-game.vercel.app/
 - Game has a fixed size - you need to adjust resolution of your browser to play the game
     - Game <ins>is not supported on mobile</ins> at the time    
