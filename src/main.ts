@@ -1,6 +1,6 @@
 import { Application, Assets, Container } from 'pixi.js';
 import { addPlayButtons } from "./components/gui/playButton.ts";
-import { addBalanceHolder, addMainPageTitle } from "./components/gui/texts.ts";
+import { addMainPageTitle, addMoneyInfo } from "./components/gui/texts.ts";
 import { addChests } from "./components/chest.ts";
 import { createBonusPage } from "./components/bonus.ts";
 import { gameState } from "./components/globalVariables/states.ts";
@@ -35,7 +35,7 @@ import { onChestClicked, onPlayButtonClicked } from "./components/handlers.ts";
 
     const mainPage = new Container();
 
-    const balanceSprite = addBalanceHolder(app, mainPage);
+    const moneyInfo = addMoneyInfo(app, mainPage);
     addMainPageTitle(app, mainPage, "Main game Screen");
     const allChests = addChests(app, mainPage);
     const {playButton, playButtonOff} = addPlayButtons(app, mainPage);
@@ -45,12 +45,12 @@ import { onChestClicked, onPlayButtonClicked } from "./components/handlers.ts";
     app.stage.addChild(mainPage);
 
     playButton.addListener('pointerdown', () => {
-        onPlayButtonClicked(playButton, playButtonOff, allChests);
+        onPlayButtonClicked(playButton, playButtonOff, allChests, moneyInfo);
     });
 
     allChests.forEach(chest => {
         chest.addListener('pointerdown', () => {
-            onChestClicked(app, chest, allChests, balanceSprite, playButton, playButtonOff)
+            onChestClicked(app, chest, allChests, moneyInfo, playButton, playButtonOff)
         })
     })
 

@@ -1,5 +1,12 @@
-import { Application, Sprite, Text, Texture } from "pixi.js";
-import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, PARTICLE_DELAY, YOU_WIN_TEXT } from "./globalVariables/consts.ts";
+import { Application, Sprite, Texture } from "pixi.js";
+import {
+    BONUS_WIN,
+    BONUS_WIN_LEVEL,
+    NORMAL_WIN,
+    NORMAL_WIN_LEVEL,
+    PARTICLE_DELAY, YOUR_BALANCE_TEXT,
+    YOUR_WIN_TEXT
+} from "./globalVariables/consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -8,7 +15,8 @@ import {
 import { togglePlayButton } from "./gui/playButton.ts";
 import { createReductionAnimation, createRotationAnimation } from "./winPresentation/win.ts";
 import { hideMainPageAndShowBonus } from "./bonus.ts";
-import { gameState, numberOfChestsOpened, yourBalance } from "./globalVariables/states.ts";
+import { gameState, numberOfChestsOpened, yourBalance, yourWin } from "./globalVariables/states.ts";
+import { IMONEY_INFO } from "./gui/texts.ts";
 
 export function startGame(playButton: Sprite, playButtonOff: Sprite, chests: Sprite[]) {
     togglePlayButton(playButton, playButtonOff);
@@ -43,7 +51,7 @@ function changeChestsTexture(chests: Sprite[]) {
     })
 }
 
-export function handleChestClick(app: Application, chest: Sprite, otherChests: Sprite[], balanceSprite:Text, onComplete: () => void) {
+export function handleChestClick(app: Application, chest: Sprite, otherChests: Sprite[], moneyInfo: IMONEY_INFO, onComplete: () => void) {
     if (chest["used"] === true) {
         return;
     }
@@ -60,33 +68,36 @@ export function handleChestClick(app: Application, chest: Sprite, otherChests: S
         handleBonusWin(app, chest, otherChests);
     }
 
-    handleTurnCompletion(chest, otherChests, balanceSprite ,onComplete);
+    handleTurnCompletion(chest, otherChests, moneyInfo, onComplete);
 }
 
-function handleNoWin(chest: Sprite, otherChests:Sprite[]) {
+function handleNoWin(chest: Sprite, otherChests: Sprite[]) {
     gameState.value = "NoWin";
     createReductionAnimation(chest, () => enableNotUsedChests(otherChests))
 }
 
-function handleNormalWin(chest: Sprite, otherChests:Sprite[]) {
+function handleNormalWin(chest: Sprite, otherChests: Sprite[]) {
     gameState.value = "NormalWin";
     createRotationAnimation(chest, 0.1, () => {
         enableNotUsedChests(otherChests);
     })
+    yourWin.value += NORMAL_WIN;
     yourBalance.value += NORMAL_WIN;
 }
 
-function handleBonusWin(app:Application, chest: Sprite, otherChests:Sprite[]) {
+function handleBonusWin(app: Application, chest: Sprite, otherChests: Sprite[]) {
     gameState.value = "BonusWin";
     createRotationAnimation(chest, 0.25, () => {
         enableNotUsedChests(otherChests);
         setTimeout(() => hideMainPageAndShowBonus(app), PARTICLE_DELAY);
     })
+    yourWin.value += BONUS_WIN;
     yourBalance.value += BONUS_WIN;
 }
 
-function handleTurnCompletion(chest: Sprite, otherChests: Sprite[], balanceSprite: Text, onComplete: () => void) {
-    balanceSprite.text = YOU_WIN_TEXT + yourBalance.value;
+function handleTurnCompletion(chest: Sprite, otherChests: Sprite[], moneyInfo: IMONEY_INFO, onComplete: () => void) {
+    moneyInfo.winHolder.text = YOUR_WIN_TEXT + yourWin.value;
+    moneyInfo.balanceHolder.text = YOUR_BALANCE_TEXT + yourBalance.value;
 
     changeChestsTexture([chest]);
     chest["used"] = true;
