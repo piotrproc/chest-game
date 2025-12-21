@@ -1,5 +1,5 @@
 import { Sprite, Ticker } from "pixi.js";
-import { SPRITE_SIZE } from "./consts.ts";
+import { ANIMATION_TIME, SPRITE_SIZE } from "./consts.ts";
 
 export function createRotationAnimation(sprite: Sprite, speed: number, onComplete) {
     // Basic ticker usage with different time units
@@ -14,7 +14,7 @@ export function createRotationAnimation(sprite: Sprite, speed: number, onComplet
         ticker.stop()
         sprite.rotation = 0;
         onComplete()
-    }, 1000)
+    }, ANIMATION_TIME)
 }
 
 export function createReductionAnimation(sprite: Sprite, onComplete) {
@@ -32,5 +32,5 @@ export function createReductionAnimation(sprite: Sprite, onComplete) {
     setTimeout(function () {
         ticker.stop();
         onComplete()
-    }, 1000)
+    }, ANIMATION_TIME)
 }

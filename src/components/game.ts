@@ -1,5 +1,5 @@
 import { Application, Sprite, Text, Texture } from "pixi.js";
-import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, YOU_WIN_TEXT } from "./consts.ts";
+import { BONUS_WIN, BONUS_WIN_LEVEL, NORMAL_WIN, NORMAL_WIN_LEVEL, PARTICLE_DELAY, YOU_WIN_TEXT } from "./consts.ts";
 import {
     changeChestsMarking,
     disableChests,
@@ -65,7 +65,6 @@ export function handleChestClick(app: Application, chest: Sprite, otherChests: S
     changeChestsTexture([chest]);
     chest["used"] = true;
     changeChestsMarking(chest, otherChests);
-
     handleCompletionOfRound(onComplete, otherChests);
 }
 
@@ -86,7 +85,7 @@ function handleBonusWin(app:Application, chest: Sprite, otherChests:Sprite[]) {
     gameState.value = "BonusWin";
     createRotationAnimation(chest, 0.25, () => {
         enableNotUsedChests(otherChests);
-        setTimeout(() => hideMainPageAndShowBonus(app), 200);
+        setTimeout(() => hideMainPageAndShowBonus(app), PARTICLE_DELAY);
     })
     yourBalance.value += BONUS_WIN;
 }
